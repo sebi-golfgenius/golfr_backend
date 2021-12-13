@@ -17,6 +17,14 @@ class Score < ApplicationRecord
     }
   end
 
+  def serialize_without_user
+    {
+      id: id,
+      total_score: total_score,
+      played_at: played_at,
+    }
+  end
+
   private
 
   def future_score

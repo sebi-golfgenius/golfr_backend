@@ -3,6 +3,8 @@ module Api
   class UsersController < ApplicationController
     include Devise::Controllers::Helpers
 
+    before_action :logged_in!, only: :show
+
     def login
       user = User.find_by('lower(email) = ?', params[:email])
 
@@ -25,6 +27,23 @@ module Api
           token: current_token
         }
       }.to_json
+    end
+
+    def show
+      single_user = User.find_by(id: params[:id])
+
+      if single_user.nil?
+        render json: {
+          errors: 'User not found'
+        }, status: :bad_request
+      else
+        render json: {
+          user: {
+            id: single_user[:id],
+            name: single_user[:name]
+          }
+        }
+      end
     end
   end
 end
