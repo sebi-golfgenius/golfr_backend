@@ -7,7 +7,6 @@ module Api
     def scores_for_user
       user ||= User.find_by(id: params[:id])
       if user
-        # scores = user.scores.includes(:user)
         scores = Score.where(user_id: user.id).order(played_at: :desc, id: :desc).includes(:user)
         serialized_scores = scores.map(&:serialize_without_user)
         render json: {
