@@ -1,3 +1,7 @@
+# Model to represent a golfer
+# - name: golfer's name
+# - email: golfer's email
+# - password: golfer's password
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 

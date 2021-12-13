@@ -5,7 +5,7 @@ module Api
     before_action :validate_score_user_id, only: :destroy
 
     def scores_for_user
-      user = User.find_by(id: params[:id]) if !user
+      user ||= User.find_by(id: params[:id])
       if user
         # scores = user.scores.includes(:user)
         scores = Score.where(user_id: user.id).order(played_at: :desc, id: :desc).includes(:user)
@@ -15,7 +15,7 @@ module Api
         }
       else
         render json: {
-          errors: "User not found"
+          errors: 'User not found'
         }, status: :bad_request
       end
     end

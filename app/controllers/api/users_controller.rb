@@ -32,19 +32,18 @@ module Api
     def show
       single_user = User.find_by(id: params[:id])
 
-      if !single_user.nil?
+      if single_user.nil?
+        render json: {
+          errors: 'User not found'
+        }, status: :bad_request
+      else
         render json: {
           user: {
             id: single_user[:id],
             name: single_user[:name]
           }
         }
-      else
-        render json: {
-          errors: "User not found"
-        }, status: :bad_request
       end
     end
-
   end
 end
